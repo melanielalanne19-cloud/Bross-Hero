@@ -1,0 +1,15 @@
+{
+  "name": "Bross'Hero",
+  "short_name": "Bross'Hero",
+  "description": "2 minutes pour un sourire de héros !",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#DFF4FF",
+  "theme_color": "#1B6FA8",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "icons/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

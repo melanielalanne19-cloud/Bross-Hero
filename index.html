@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Bross'Hero</title>
+<meta name="theme-color" content="#1B6FA8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bross'Hero">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="icon" href="icons/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- 1. WELCOME -->
+  <div class="screen active center" id="screen-welcome">
+    <div class="grow center pad">
+      <div class="logo-wrap">
+        <div class="float" id="logoMascot"></div>
+        <div class="logo-title">Bross'Hero</div>
+        <div class="logo-sub">L'appli qui rend le brossage héroïque</div>
+        <div class="slogan-badge">2 minutes pour un sourire de héros !</div>
+      </div>
+    </div>
+    <div class="pad" style="width:100%;">
+      <button class="btn yellow" onclick="go('profile')">Commencer l'aventure ✨</button>
+    </div>
+  </div>
+
+  <!-- 2. PROFILE CREATION -->
+  <div class="screen" id="screen-profile">
+    <div class="topbar"><button class="iconbtn" onclick="go('welcome')">←</button><span class="muted">Étape 1/2</span><span style="width:40px"></span></div>
+    <div class="pad grow">
+      <h2 style="margin:6px 0 2px;">Comment tu t'appelles, héros ?</h2>
+      <p class="muted" style="margin:0 0 4px; font-weight:700;">Ton prénom</p>
+      <input class="field" id="childName" placeholder="Ex: Léo" maxlength="16">
+      <p class="muted" style="margin:16px 0 6px; font-weight:700;">Ton âge</p>
+      <input class="field" id="childAge" type="number" min="3" max="12" placeholder="Ex: 6">
+      <p class="muted" style="margin:16px 0 6px; font-weight:700;">Ta couleur préférée</p>
+      <div class="swatches" id="colorSwatches"></div>
+    </div>
+    <div class="pad"><button class="btn blue" onclick="saveProfile()">Continuer →</button></div>
+  </div>
+
+  <!-- 3. CHARACTER CHOICE -->
+  <div class="screen" id="screen-character">
+    <div class="topbar"><button class="iconbtn" onclick="go('profile')">←</button><span class="muted">Étape 2/2</span><span style="width:40px"></span></div>
+    <div class="pad grow">
+      <h2 style="margin:6px 0 2px;">Choisis ton compagnon</h2>
+      <p class="muted" style="margin:0; font-weight:700;">Il t'aidera à vaincre les Caries !</p>
+      <div class="buddy-grid">
+        <div class="buddy-card" data-buddy="brossy" onclick="selectBuddy('brossy')">
+          <div id="buddyIcon-brossy"></div>
+          <h3>Brossy</h3>
+          <p>Courageux &amp; drôle</p>
+        </div>
+        <div class="buddy-card" data-buddy="flossy" onclick="selectBuddy('flossy')">
+          <div id="buddyIcon-flossy"></div>
+          <h3>Flossy</h3>
+          <p>Rapide &amp; maligne</p>
+        </div>
+        <div class="buddy-card" data-buddy="molaro" onclick="selectBuddy('molaro')">
+          <div id="buddyIcon-molaro"></div>
+          <h3>Molaro</h3>
+          <p>Costaud &amp; protecteur</p>
+        </div>
+        <div class="buddy-card" data-buddy="etincelle" onclick="selectBuddy('etincelle')">
+          <div id="buddyIcon-etincelle"></div>
+          <h3>Étincelle</h3>
+          <p>Pétillante &amp; brillante</p>
+        </div>
+      </div>
+    </div>
+    <div class="pad"><button class="btn mint" onclick="finishOnboarding()">C'est parti !</button></div>
+  </div>
+
+  <!-- 4. HOME -->
+  <div class="screen" id="screen-home">
+    <div class="home-header">
+      <div>
+        <div class="muted" id="homeGreeting">Salut, héros !</div>
+      </div>
+      <div class="streak-badge" id="streakBadge">🔥 0 jour</div>
+    </div>
+    <div class="hero-stage">
+      <div id="homeMascot"></div>
+      <button class="btn mission-btn" onclick="startIntro()">COMMENCER MA MISSION</button>
+    </div>
+    <div class="today-strip">
+      <div class="today-chip" id="chipMatin"><span class="em">🌅</span>Matin</div>
+      <div class="today-chip" id="chipMidi"><span class="em">☀️</span>Midi</div>
+      <div class="today-chip" id="chipSoir"><span class="em">🌙</span>Soir</div>
+    </div>
+    <div class="home-grid">
+      <div class="home-tile" onclick="go('map')"><div class="ti">🗺️</div><p>Mon Royaume</p></div>
+      <div class="home-tile" onclick="go('rewards')"><div class="ti">🎁</div><p>Mes récompenses</p></div>
+    </div>
+    <div style="flex:1"></div>
+    <div class="tabbar">
+      <button class="tab active" data-tab="home" onclick="go('home')"><span class="ti">🏠</span>Accueil</button>
+      <button class="tab" data-tab="map" onclick="go('map')"><span class="ti">🗺️</span>Mondes</button>
+      <button class="tab" data-tab="kingdom" onclick="go('kingdom')"><span class="ti">🏰</span>Royaume</button>
+      <button class="tab" data-tab="rewards" onclick="go('rewards')"><span class="ti">🎁</span>Cadeaux</button>
+      <button class="tab" data-tab="profile" onclick="go('profile2')"><span class="ti">😀</span>Profil</button>
+    </div>
+  </div>
+
+  <!-- 5. MISSION INTRO -->
+  <div class="screen center" id="screen-intro">
+    <div class="grow center pad">
+      <div id="introMascot"></div>
+      <div class="speech" id="introText">Alerte ! Les Caries attaquent ! Tu as 2 minutes pour sauver ton sourire !</div>
+    </div>
+    <div class="pad">
+      <button class="btn coral" onclick="startBrushing()">J'y vais, héros ! 🦸</button>
+    </div>
+  </div>
+
+  <!-- 6. BRUSHING -->
+  <div class="screen" id="screen-brush">
+    <div class="brush-top">
+      <button class="iconbtn" onclick="pauseBrush()" id="pauseBtn">⏸</button>
+      <div class="pill">⭐ <span id="brushXp">0</span> XP</div>
+    </div>
+    <div class="timer" id="timerLabel">2:00</div>
+    <div class="phase-label" id="phaseLabel">Dents du haut</div>
+    <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+    <div class="brush-stage" id="brushStage"></div>
+    <div class="encourage" id="encourageText">Frotte doucement, haut en bas ✨</div>
+    <div class="brush-controls">
+      <button class="btn ghost small" style="flex:1" onclick="skipBrush()">Terminer la mission</button>
+    </div>
+  </div>
+
+  <!-- 7. VICTORY -->
+  <div class="screen center" id="screen-victory">
+    <div class="grow center pad">
+      <div id="victoryMascot"></div>
+      <h1 style="margin:10px 0 0; color:var(--navy);" id="victoryTitle">MISSION RÉUSSIE !</h1>
+      <div class="stars" id="victoryStars">⭐⭐⭐</div>
+      <div class="xp-badge" id="victoryXpBadge">+100 XP · Carie vaincue !</div>
+    </div>
+    <div class="pad" style="display:flex; flex-direction:column; gap:10px;">
+      <button class="btn blue" onclick="claimReward()">Récupérer ma récompense 🎁</button>
+    </div>
+  </div>
+
+  <!-- 8. WORLD MAP -->
+  <div class="screen" id="screen-map">
+    <div class="topbar"><button class="iconbtn" onclick="go('home')">←</button><h2 style="margin:0; font-size:18px;">Carte des mondes</h2><span style="width:40px"></span></div>
+    <div class="world-list" id="worldList"></div>
+  </div>
+
+  <!-- 9. KINGDOM -->
+  <div class="screen" id="screen-kingdom">
+    <div class="topbar"><button class="iconbtn" onclick="go('home')">←</button><h2 style="margin:0; font-size:18px;">Mon Royaume</h2><span style="width:40px"></span></div>
+    <div class="kingdom-stage" id="kingdomStage"></div>
+    <div class="kingdom-list" id="kingdomList"></div>
+  </div>
+
+  <!-- 10. REWARDS -->
+  <div class="screen" id="screen-rewards">
+    <div class="topbar"><button class="iconbtn" onclick="go('home')">←</button><h2 style="margin:0; font-size:18px;">Mes récompenses</h2><span style="width:40px"></span></div>
+    <div class="pad" style="padding-top:0;"><p class="muted">Débloque des trésors en te brossant les dents !</p></div>
+    <div class="reward-grid" id="rewardGrid"></div>
+  </div>
+
+  <!-- 11. PROFILE -->
+  <div class="screen" id="screen-profile2">
+    <div class="topbar"><button class="iconbtn" onclick="go('home')">←</button><h2 style="margin:0; font-size:18px;">Mon profil</h2><button class="iconbtn" onclick="go('settings')">⚙️</button></div>
+    <div class="profile-hero">
+      <div id="profileMascot"></div>
+      <h2 style="margin:10px 0 0;" id="profileName">Héros</h2>
+      <p class="muted" id="profileAge">6 ans</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="num" id="statXp">0</div><div class="lab">XP total</div></div>
+      <div class="stat-box"><div class="num" id="statStreak">0</div><div class="lab">Jours de suite</div></div>
+      <div class="stat-box"><div class="num" id="statCoins">0</div><div class="lab">Pièces</div></div>
+    </div>
+    <div class="pad">
+      <button class="btn ghost" onclick="go('parents')">👨‍👩‍👧 Espace parents</button>
+    </div>
+  </div>
+
+  <!-- 12. PARENTS -->
+  <div class="screen" id="screen-parents">
+    <div class="topbar"><button class="iconbtn" onclick="go('profile2')">←</button><h2 style="margin:0; font-size:18px;">Espace parents</h2><span style="width:40px"></span></div>
+    <div id="parentsGate">
+      <div class="gate-box">
+        <h3 style="margin-top:0;">Zone réservée aux parents</h3>
+        <p class="muted" style="font-weight:700;">Réponds pour continuer :</p>
+        <p style="font-family:'Baloo 2'; font-size:22px; font-weight:800; color:var(--navy);" id="gateQuestion">7 × 8 = ?</p>
+        <input class="field" id="gateAnswer" type="number" placeholder="Ta réponse">
+        <button class="btn blue" style="margin-top:14px;" onclick="checkGate()">Valider</button>
+        <p id="gateError" class="muted" style="color:var(--coral); display:none; margin-top:8px;">Ce n'est pas ça, réessaie !</p>
+      </div>
+    </div>
+    <div id="parentsContent" class="hidden">
+      <div class="pad" style="padding-bottom:0;">
+        <p class="muted" style="font-weight:800;">Aujourd'hui</p>
+      </div>
+      <div class="day-log"><span>🌅 Matin</span><span id="pMatin" class="cross">✖</span></div>
+      <div class="day-log"><span>☀️ Midi</span><span id="pMidi" class="cross">✖</span></div>
+      <div class="day-log"><span>🌙 Soir</span><span id="pSoir" class="cross">✖</span></div>
+      <div class="pad" style="padding-top:6px; padding-bottom:0;">
+        <p class="muted" style="font-weight:800;">Progression</p>
+      </div>
+      <div class="day-log"><span>Série actuelle</span><span id="pStreak">🔥 0 jours</span></div>
+      <div class="day-log"><span>XP total</span><span id="pXp">0 XP</span></div>
+      <div class="day-log"><span>Durée moyenne</span><span>≈ 2 min</span></div>
+      <div class="pad"><p class="muted" style="font-size:12px; line-height:1.5;">Les données de votre enfant restent privées et ne sont visibles que dans cet espace. Aucun classement n'est établi entre enfants.</p></div>
+    </div>
+  </div>
+
+  <!-- 13. SETTINGS -->
+  <div class="screen" id="screen-settings">
+    <div class="topbar"><button class="iconbtn" onclick="go('profile2')">←</button><h2 style="margin:0; font-size:18px;">Paramètres</h2><span style="width:40px"></span></div>
+    <div class="pad" style="padding-bottom:0;"></div>
+    <div class="setting-row"><span>🔊 Sons &amp; musique</span><div class="toggle on" id="soundToggle" onclick="toggleSound()"><div class="knob"></div></div></div>
+    <div class="setting-row"><span>🔔 Rappel matin</span><div class="toggle on"><div class="knob"></div></div></div>
+    <div class="setting-row"><span>🔔 Rappel soir</span><div class="toggle on"><div class="knob"></div></div></div>
+    <div class="pad">
+      <button class="btn ghost" onclick="resetProgress()">Réinitialiser la progression</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
